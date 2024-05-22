@@ -1,0 +1,2 @@
+# Spring boot starter
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.ynjabo77.jaboapiclientsdk.JaboApiClientConfig
