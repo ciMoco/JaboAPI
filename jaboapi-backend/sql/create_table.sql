@@ -41,7 +41,16 @@ create table if not exists interface_info
     `isDelete` tinyint default 0 not null comment '是否删除(0-未删, 1-已删)'
 ) comment '接口信息';
 
-insert into interface_info (`name`, `description`, `url`, `method`, `requestHeader`, `responseHeader`, `status`, `userId`) values ('崔智渊', '东农业大学', 'www.nicky-carroll.net', '邵立诚', '钟思远', '贺琪', 0, 731);
-insert into interface_info (`name`, `description`, `url`, `method`, `requestHeader`, `responseHeader`, `status`, `userId`) values ('姜风华', '中国大学', 'www.maximo-russel.io', '邵睿渊', '沈越彬', '吴志泽', 0, 8);
-insert into interface_info (`name`, `description`, `url`, `method`, `requestHeader`, `responseHeader`, `status`, `userId`) values ('蒋鑫磊', '东北农业大学', 'www.donovan-jast.io', '余伟宸', '钟晋鹏', '白果', 0, 33114165);
-insert into interface_info (`name`, `description`, `url`, `method`, `requestHeader`, `responseHeader`, `status`, `userId`) values ('覃耀杰', '东南技术大学', 'www.rebbeca-strosin.org', '武思聪', '朱语堂', '贾晓啸', 0, 337293027);
+-- 调用接口关系表
+create table if not exists user_interface_info
+(
+    `id` bigint not null auto_increment comment '主键' primary key,
+    `userId` bigint not null comment '调用用户 id',
+    `interfaceInfoId` bigint not null comment '接口 id',
+    `totalNum` int default 0 null comment '总调用次数',
+    `leftNum` int default 0 null comment '剩余调用次数',
+    `status` int default 0 not null comment '0-正常，1-禁用',
+    `createTime` datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updateTime` datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `isDelete` tinyint default 0 not null comment '是否删除(0-未删, 1-已删)'
+) comment '调用接口关系表';
