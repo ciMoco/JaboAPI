@@ -1,4 +1,4 @@
-package com.ynjabo77.project.model.entity;
+package com.ynjabo77.jaboapicommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

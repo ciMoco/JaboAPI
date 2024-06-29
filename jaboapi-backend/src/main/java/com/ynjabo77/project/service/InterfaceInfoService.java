@@ -1,7 +1,7 @@
 package com.ynjabo77.project.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ynjabo77.project.model.entity.InterfaceInfo;
+import com.ynjabo77.jaboapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author ynjabo77

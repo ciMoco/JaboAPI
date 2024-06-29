@@ -1,10 +1,10 @@
 package com.ynjabo77.project.aop;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.ynjabo77.jaboapicommon.model.entity.User;
 import com.ynjabo77.project.annotation.AuthCheck;
 import com.ynjabo77.project.common.ErrorCode;
 import com.ynjabo77.project.exception.BusinessException;
-import com.ynjabo77.project.model.entity.User;
 import com.ynjabo77.project.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

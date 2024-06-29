@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.ynjabo77.jaboapiclientsdk.client.JaboApiClient;
+import com.ynjabo77.jaboapicommon.model.entity.InterfaceInfo;
+import com.ynjabo77.jaboapicommon.model.entity.User;
 import com.ynjabo77.project.annotation.AuthCheck;
 import com.ynjabo77.project.common.*;
 import com.ynjabo77.project.constant.CommonConstant;
@@ -12,8 +14,7 @@ import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoAddRequest;
 import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
-import com.ynjabo77.project.model.entity.InterfaceInfo;
-import com.ynjabo77.project.model.entity.User;
+
 import com.ynjabo77.project.model.enums.InterfaceInfoStatusEnum;
 import com.ynjabo77.project.service.InterfaceInfoService;
 import com.ynjabo77.project.service.UserService;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
 
 /**
  * 接口信息

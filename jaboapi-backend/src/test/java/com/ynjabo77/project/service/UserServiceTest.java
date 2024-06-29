@@ -1,6 +1,6 @@
 package com.ynjabo77.project.service;
 
-import com.ynjabo77.project.model.entity.User;
+import com.ynjabo77.jaboapicommon.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
