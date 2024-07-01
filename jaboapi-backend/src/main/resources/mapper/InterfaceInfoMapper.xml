@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ynjabo77.project.mapper.InterfaceInfoMapper">
 
-    <resultMap id="BaseResultMap" type="generator.domain.InterfaceInfo">
+    <resultMap id="BaseResultMap" type="com.ynjabo77.jaboapiclientsdk.model.entity.InterfaceInfo">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
@@ -28,4 +28,10 @@
         requestParams,host,createTime,
         updateTime,isDelete
     </sql>
+    <select id="getApiUrl" resultType="com.ynjabo77.jaboapiclientsdk.model.entity.InterfaceInfo">
+        select id, concat(host, restful), description, method
+        from interface_info
+        where concat(host, restful) = #{apiUrl}
+          AND method = #{method};
+    </select>
 </mapper>

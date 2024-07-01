@@ -2,16 +2,16 @@ package com.ynjabo77.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ynjabo77.jaboapicommon.model.entity.User;
-import com.ynjabo77.jaboapicommon.model.entity.UserInterfaceInfo;
+import com.ynjabo77.jaboapiclientsdk.common.BaseResponse;
+import com.ynjabo77.jaboapiclientsdk.common.DeleteRequest;
+import com.ynjabo77.jaboapiclientsdk.common.ErrorCode;
+import com.ynjabo77.jaboapiclientsdk.common.ResultUtils;
+import com.ynjabo77.jaboapiclientsdk.constant.CommonConstant;
+import com.ynjabo77.jaboapiclientsdk.exception.BusinessException;
+import com.ynjabo77.jaboapiclientsdk.model.entity.User;
+import com.ynjabo77.jaboapiclientsdk.model.entity.UserInterfaceInfo;
 import com.ynjabo77.project.annotation.AuthCheck;
-import com.ynjabo77.project.common.BaseResponse;
-import com.ynjabo77.project.common.DeleteRequest;
-import com.ynjabo77.project.common.ErrorCode;
-import com.ynjabo77.project.common.ResultUtils;
-import com.ynjabo77.project.constant.CommonConstant;
 import com.ynjabo77.project.constant.UserConstant;
-import com.ynjabo77.project.exception.BusinessException;
 import com.ynjabo77.project.model.dto.userinterfaceinfo.UserInterfaceInfoAddRequest;
 import com.ynjabo77.project.model.dto.userinterfaceinfo.UserInterfaceInfoQueryRequest;
 import com.ynjabo77.project.model.dto.userinterfaceinfo.UserInterfaceInfoUpdateRequest;
@@ -51,7 +51,8 @@ public class UserInterfaceInfoController {
      */
     @PostMapping("/add")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Long> addUserInterfaceInfo(@RequestBody UserInterfaceInfoAddRequest userInterfaceInfoAddRequest, HttpServletRequest request) {
+    public BaseResponse<Long> addUserInterfaceInfo(@RequestBody UserInterfaceInfoAddRequest userInterfaceInfoAddRequest,
+                                                   HttpServletRequest request) {
         if (userInterfaceInfoAddRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -171,8 +172,8 @@ public class UserInterfaceInfoController {
      * @param request
      * @return
      */
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     @GetMapping("/list/page")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Page<UserInterfaceInfo>> listUserInterfaceInfoByPage(UserInterfaceInfoQueryRequest userInterfaceInfoQueryRequest, HttpServletRequest request) {
         if (userInterfaceInfoQueryRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);

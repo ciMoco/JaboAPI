@@ -1,6 +1,6 @@
 package com.ynjabo77.project.service.impl.inner;
 
-import com.ynjabo77.jaboapicommon.service.InnerUserInterfaceInfoService;
+import com.ynjabo77.jaboapiclientsdk.service.InnerUserInterfaceInfoService;
 import com.ynjabo77.project.service.UserInterfaceInfoService;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -15,5 +15,10 @@ public class InnerUserInterfaceInfoServiceImpl implements InnerUserInterfaceInfo
     @Override
     public boolean invokeCount(long interfaceInfoId, long userId) {
         return userInterfaceInfoService.invokeCount(interfaceInfoId, userId);
+    }
+
+    @Override
+    public boolean invokeResidueCount(long userId) {
+        return userInterfaceInfoService.invokeResidueCount(userId);
     }
 }

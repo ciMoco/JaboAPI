@@ -1,10 +1,9 @@
 package com.ynjabo77.project.service.impl.inner;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ynjabo77.jaboapicommon.model.entity.InterfaceInfo;
-import com.ynjabo77.jaboapicommon.service.InnerInterfaceInfoService;
-import com.ynjabo77.project.common.ErrorCode;
-import com.ynjabo77.project.exception.BusinessException;
+import com.ynjabo77.jaboapiclientsdk.common.ErrorCode;
+import com.ynjabo77.jaboapiclientsdk.exception.BusinessException;
+import com.ynjabo77.jaboapiclientsdk.model.entity.InterfaceInfo;
+import com.ynjabo77.jaboapiclientsdk.service.InnerInterfaceInfoService;
 import com.ynjabo77.project.mapper.InterfaceInfoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -22,9 +21,6 @@ public class InnerInterfaceInfoServiceImpl implements InnerInterfaceInfoService 
         if (StringUtils.isAnyBlank(url, method)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("url", url);
-        queryWrapper.eq("method", method);
-        return interfaceInfoMapper.selectOne(queryWrapper);
+        return interfaceInfoMapper.getApiUrl(url, method);
     }
 }

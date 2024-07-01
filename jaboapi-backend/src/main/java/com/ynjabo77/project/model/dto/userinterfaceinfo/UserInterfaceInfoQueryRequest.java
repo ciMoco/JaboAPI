@@ -1,6 +1,6 @@
 package com.ynjabo77.project.model.dto.userinterfaceinfo;
 
-import com.ynjabo77.project.common.PageRequest;
+import com.ynjabo77.jaboapiclientsdk.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,4 +41,6 @@ public class UserInterfaceInfoQueryRequest extends PageRequest implements Serial
      * 0-正常，1-禁用
      */
     private Integer status;
+
+    private static final long serialVersionUID = 1L;
 }

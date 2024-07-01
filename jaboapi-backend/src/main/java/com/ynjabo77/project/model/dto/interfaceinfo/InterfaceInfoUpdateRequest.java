@@ -1,13 +1,11 @@
 package com.ynjabo77.project.model.dto.interfaceinfo;
 
 import lombok.Data;
-import org.apache.logging.log4j.message.Message;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
 /**
- * 更新请求
+ * 用户更新请求
  */
 @Data
 public class InterfaceInfoUpdateRequest implements Serializable {
@@ -27,19 +25,14 @@ public class InterfaceInfoUpdateRequest implements Serializable {
     private String description;
 
     /**
+     * 主机地址
+     */
+    private String host;
+
+    /**
      * 接口地址
      */
-    private String url;
-
-    /**
-     * 请求类型
-     */
-    private String method;
-
-    /**
-     * 请求参数
-     */
-    private String requestParams;
+    private String restful;
 
     /**
      * 请求头
@@ -51,10 +44,22 @@ public class InterfaceInfoUpdateRequest implements Serializable {
      */
     private String responseHeader;
 
+
+    /**
+     * 请求参数
+     */
+    private String requestParams;
+
     /**
      * 接口状态（0-关闭，1-开启）
      */
     private Integer status;
+
+    /**
+     * 请求类型
+     */
+    private String method;
+
 
     private static final long serialVersionUID = 1L;
 }

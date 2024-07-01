@@ -1,14 +1,17 @@
 package com.ynjabo77.project.model.dto.interfaceinfo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * 创建请求
+ * 用户创建请求
+ *
  */
 @Data
 public class InterfaceInfoAddRequest implements Serializable {
+
     /**
      * 名称
      */
@@ -20,14 +23,14 @@ public class InterfaceInfoAddRequest implements Serializable {
     private String description;
 
     /**
-     * 接口地址
+     * restful风格路径
      */
-    private String url;
+    private String restful;
 
     /**
-     * 请求类型
+     * 主机地址
      */
-    private String method;
+    private String host;
 
     /**
      * 请求参数
@@ -43,4 +46,13 @@ public class InterfaceInfoAddRequest implements Serializable {
      * 响应头
      */
     private String responseHeader;
+
+
+    /**
+     * 请求类型
+     */
+    private String method;
+
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

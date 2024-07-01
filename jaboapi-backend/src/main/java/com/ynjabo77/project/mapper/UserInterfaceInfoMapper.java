@@ -1,16 +1,16 @@
 package com.ynjabo77.project.mapper;
 
-import generator.domain.UserInterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ynjabo77.jaboapiclientsdk.model.entity.UserInterfaceInfo;
+
+import java.util.List;
 
 /**
-* @author ynjabo77
-* @description 针对表【user_interface_info(用户调用接口关系)】的数据库操作Mapper
-* @createDate 2024-06-30 10:40:33
-* @Entity generator.domain.UserInterfaceInfo
-*/
+ * 用户调用接口关系数据库操作
+ */
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
 
+    List<UserInterfaceInfo> getTopInvokerInterfaceInfo(int limit);
 }
 
 

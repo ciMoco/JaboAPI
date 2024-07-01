@@ -2,14 +2,16 @@ package com.ynjabo77.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.Gson;
+import com.ynjabo77.jaboapiclientsdk.apiservice.impl.JaboApiServiceImpl;
 import com.ynjabo77.jaboapiclientsdk.client.JaboApiClient;
-import com.ynjabo77.jaboapicommon.model.entity.InterfaceInfo;
-import com.ynjabo77.jaboapicommon.model.entity.User;
+import com.ynjabo77.jaboapiclientsdk.common.*;
+import com.ynjabo77.jaboapiclientsdk.constant.CommonConstant;
+import com.ynjabo77.jaboapiclientsdk.exception.BusinessException;
+import com.ynjabo77.jaboapiclientsdk.model.entity.InterfaceInfo;
+import com.ynjabo77.jaboapiclientsdk.model.entity.User;
+import com.ynjabo77.jaboapiclientsdk.strategy.BaseContext;
 import com.ynjabo77.project.annotation.AuthCheck;
-import com.ynjabo77.project.common.*;
-import com.ynjabo77.project.constant.CommonConstant;
-import com.ynjabo77.project.exception.BusinessException;
+import com.ynjabo77.project.constant.UserConstant;
 import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoAddRequest;
 import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
@@ -17,6 +19,7 @@ import com.ynjabo77.project.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 
 import com.ynjabo77.project.model.enums.InterfaceInfoStatusEnum;
 import com.ynjabo77.project.service.InterfaceInfoService;
+import com.ynjabo77.project.service.UserInterfaceInfoService;
 import com.ynjabo77.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +46,10 @@ public class InterfaceInfoController {
     private UserService userService;
 
     @Resource
-    private JaboApiClient jaboApiClient;
+    private UserInterfaceInfoService userInterfaceInfoService;
+
+    @Resource
+    private BaseContext baseContext;
 
     // region 增删改查
 
@@ -153,8 +159,8 @@ public class InterfaceInfoController {
      * @param interfaceInfoQueryRequest
      * @return
      */
-    @AuthCheck(mustRole = "admin")
     @GetMapping("/list")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<List<InterfaceInfo>> listInterfaceInfo(InterfaceInfoQueryRequest interfaceInfoQueryRequest) {
         InterfaceInfo interfaceInfoQuery = new InterfaceInfo();
         if (interfaceInfoQueryRequest != null) {
@@ -208,7 +214,7 @@ public class InterfaceInfoController {
      * @return
      */
     @PostMapping("/online")
-    @AuthCheck(mustRole = "admin")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
                                                      HttpServletRequest request) {
         if (idRequest == null || idRequest.getId() <= 0) {
@@ -219,13 +225,6 @@ public class InterfaceInfoController {
         InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
         if (oldInterfaceInfo == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
-        }
-        // 判断该接口是否可以调用
-        com.ynjabo77.jaboapiclientsdk.model.User user = new com.ynjabo77.jaboapiclientsdk.model.User();
-        user.setName("test");
-        String nameByPost = jaboApiClient.getUsernameByPost(user);
-        if (StringUtils.isBlank(nameByPost)) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
         }
         // 仅本人或管理员可修改
         InterfaceInfo interfaceInfo = new InterfaceInfo();
@@ -243,7 +242,7 @@ public class InterfaceInfoController {
      * @return
      */
     @PostMapping("/offline")
-    @AuthCheck(mustRole = "admin")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
                                                       HttpServletRequest request) {
         if (idRequest == null || idRequest.getId() <= 0) {
@@ -264,7 +263,7 @@ public class InterfaceInfoController {
     }
 
     /**
-     * 测试调用
+     * 调用
      *
      * @param interfaceInfoInvokeRequest
      * @param request
@@ -272,27 +271,34 @@ public class InterfaceInfoController {
      */
     @PostMapping("/invoke")
     public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
-                                                     HttpServletRequest request) {
+                                                    HttpServletRequest request) {
         if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         long id = interfaceInfoInvokeRequest.getId();
         String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
         // 判断是否存在
-        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
-        if (oldInterfaceInfo == null) {
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(id);
+        if (interfaceInfo == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
-        if (oldInterfaceInfo.getStatus() != InterfaceInfoStatusEnum.ONLINE.getValue()) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口未开启");
+        if (interfaceInfo.getStatus() != InterfaceInfoStatusEnum.ONLINE.getValue()) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口不可用");
         }
         User loginUser = userService.getLoginUser(request);
+        BaseContext baseContext = definitionBaseContext(loginUser);
+        userInterfaceInfoService.addUserInvokeInterface(loginUser.getId(), id);
+        String url = interfaceInfo.getRestful();
+        String result = baseContext.handler(url, userRequestParams);
+        return ResultUtils.success(result);
+    }
+
+    private BaseContext definitionBaseContext(User loginUser) {
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
-        JaboApiClient tempClint = new JaboApiClient(accessKey, secretKey);
-        Gson gson = new Gson();
-        com.ynjabo77.jaboapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.ynjabo77.jaboapiclientsdk.model.User.class);
-        String usernameByPost = tempClint.getUsernameByPost(user);
-        return ResultUtils.success(usernameByPost);
+        JaboApiServiceImpl jaboApiService = new JaboApiServiceImpl();
+        jaboApiService.setJaboApiClient(new JaboApiClient(accessKey, secretKey));
+        baseContext.setJaboApiClient(jaboApiService);
+        return baseContext;
     }
 }

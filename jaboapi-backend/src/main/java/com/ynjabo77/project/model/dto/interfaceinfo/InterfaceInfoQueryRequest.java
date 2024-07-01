@@ -1,6 +1,6 @@
 package com.ynjabo77.project.model.dto.interfaceinfo;
 
-import com.ynjabo77.project.common.PageRequest;
+import com.ynjabo77.jaboapiclientsdk.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

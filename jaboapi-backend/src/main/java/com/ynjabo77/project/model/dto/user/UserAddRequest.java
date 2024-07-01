@@ -26,19 +26,9 @@ public class UserAddRequest implements Serializable {
     private String userAvatar;
 
     /**
-     * 性别
-     */
-    private Integer gender;
-
-    /**
      * 用户角色: user, admin
      */
     private String userRole;
-
-    /**
-     * 密码
-     */
-    private String userPassword;
 
     private static final long serialVersionUID = 1L;
 }

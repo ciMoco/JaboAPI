@@ -1,13 +1,14 @@
 package com.ynjabo77.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ynjabo77.jaboapicommon.model.entity.InterfaceInfo;
-import com.ynjabo77.jaboapicommon.model.entity.UserInterfaceInfo;
+import com.ynjabo77.jaboapiclientsdk.common.BaseResponse;
+import com.ynjabo77.jaboapiclientsdk.common.ErrorCode;
+import com.ynjabo77.jaboapiclientsdk.common.ResultUtils;
+import com.ynjabo77.jaboapiclientsdk.exception.BusinessException;
+import com.ynjabo77.jaboapiclientsdk.model.entity.InterfaceInfo;
+import com.ynjabo77.jaboapiclientsdk.model.entity.UserInterfaceInfo;
 import com.ynjabo77.project.annotation.AuthCheck;
-import com.ynjabo77.project.common.BaseResponse;
-import com.ynjabo77.project.common.ErrorCode;
-import com.ynjabo77.project.common.ResultUtils;
-import com.ynjabo77.project.exception.BusinessException;
+import com.ynjabo77.project.constant.UserConstant;
 import com.ynjabo77.project.mapper.UserInterfaceInfoMapper;
 import com.ynjabo77.project.model.vo.InterfaceInfoVO;
 import com.ynjabo77.project.service.InterfaceInfoService;
@@ -38,9 +39,9 @@ public class AnalysisController {
     private InterfaceInfoService interfaceInfoService;
 
     @GetMapping("/top/interface/invoke")
-    @AuthCheck(mustRole = "admin")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<List<InterfaceInfoVO>> listTopInvokeInterfaceInfo() {
-        List<UserInterfaceInfo> userInterfaceInfoList = userInterfaceInfoMapper.listTopInvokeInterfaceInfo(3);
+        List<UserInterfaceInfo> userInterfaceInfoList = userInterfaceInfoMapper.getTopInvokerInterfaceInfo(3);
         Map<Long, List<UserInterfaceInfo>> interfaceInfoIdObjMap = userInterfaceInfoList.stream()
                 .collect(Collectors.groupingBy(UserInterfaceInfo::getInterfaceInfoId));
         QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
