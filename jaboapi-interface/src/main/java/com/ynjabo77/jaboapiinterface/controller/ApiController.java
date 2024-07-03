@@ -1,7 +1,7 @@
 package com.ynjabo77.jaboapiinterface.controller;
 
 import com.ynjabo77.jaboapiclientsdk.model.params.HoroscopeParams;
-import com.ynjabo77.jaboapiclientsdk.model.params.User;
+import com.ynjabo77.jaboapiclientsdk.model.params.UserParams;
 import com.ynjabo77.jaboapiinterface.service.MyInterfaceApiService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +11,14 @@ import javax.annotation.Resource;
  * API
  */
 @RestController
-@RequestMapping(value = "/ynjabo77", produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/ynjabo77")
 public class ApiController {
 
     @Resource
     MyInterfaceApiService myInterfaceApiService;
 
     @PostMapping("/user")
-    public String getUsernameByPost(@RequestBody User user) {
+    public String getUsernameByPost(@RequestBody UserParams user) {
         return "post 用户名字是" + user.getName();
     }
 

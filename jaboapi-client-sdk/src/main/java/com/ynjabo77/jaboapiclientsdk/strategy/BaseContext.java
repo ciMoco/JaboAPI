@@ -3,6 +3,7 @@ package com.ynjabo77.jaboapiclientsdk.strategy;
 import com.ynjabo77.jaboapiclientsdk.apiservice.JaboApiService;
 import com.ynjabo77.jaboapiclientsdk.constant.JaboApiUrl;
 import com.ynjabo77.jaboapiclientsdk.strategy.impl.HoroscopeStrategy;
+import com.ynjabo77.jaboapiclientsdk.strategy.impl.NameStrategy;
 import com.ynjabo77.jaboapiclientsdk.strategy.impl.Present;
 
 import java.util.Map;
@@ -22,11 +23,11 @@ public class BaseContext {
     private static final Present PRESENT = new Present();
 
     static {
+        strategyMap.put(JaboApiUrl.USERNAME_POST, new NameStrategy());
         strategyMap.put(JaboApiUrl.HOROSCOPE, new HoroscopeStrategy());
         strategyMap.put(JaboApiUrl.MO_YU, PRESENT);
         strategyMap.put(JaboApiUrl.RANDOM_SCENERY, PRESENT);
         strategyMap.put(JaboApiUrl.RANDOM_WALLPAPER, PRESENT);
-        strategyMap.put(JaboApiUrl.USERNAME_POST, PRESENT);
     }
 
     public String handler(String restfulUrl, String params) {
