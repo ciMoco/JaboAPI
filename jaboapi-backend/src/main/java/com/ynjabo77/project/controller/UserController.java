@@ -304,7 +304,7 @@ public class UserController {
         wrapper.set("accessKey", accessKey);
         wrapper.set("secretKey", secretKey);
         wrapper.eq("id", loginUser.getId());
-        wrapper.eq("userAccount", userAccount);
+        wrapper.eq("userAccount", loginUser.getUserAccount());
         boolean result = userService.update(wrapper);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
