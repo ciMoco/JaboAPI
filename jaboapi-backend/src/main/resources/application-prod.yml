@@ -14,6 +14,8 @@ spring:
     url: jdbc:mysql://localhost:3306/jaboapi
     username: jabo
     password: 123456
+  profiles:
+    active: prod
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
