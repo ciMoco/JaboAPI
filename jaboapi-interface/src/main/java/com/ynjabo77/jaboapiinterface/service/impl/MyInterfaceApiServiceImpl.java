@@ -42,7 +42,7 @@ public class MyInterfaceApiServiceImpl implements MyInterfaceApiService {
         String html = response.body();
         log.info("获取随机壁纸，原始返回结果为：{}", html);
         // 正则表达式匹配 href 属性的值
-        Pattern pattern = Pattern.compile("<a src=\"(.*?)\"/>");
+        Pattern pattern = Pattern.compile("<a\\s+href\\s*=\\s*\"([^\"]+)\"");
         Matcher matcher = pattern.matcher(html);
         // 如果未找到匹配的内容，直接返回原始结果，无法预览
         if (!matcher.find()) {
