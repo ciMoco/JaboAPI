@@ -41,12 +41,6 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseObject_ = {
-    code?: number;
-    data?: Record<string, any>;
-    message?: string;
-  };
-
   type BaseResponsePageInterfaceInfo_ = {
     code?: number;
     data?: PageInterfaceInfo_;
@@ -68,6 +62,12 @@ declare namespace API {
   type BaseResponsePageUserVO_ = {
     code?: number;
     data?: PageUserVO_;
+    message?: string;
+  };
+
+  type BaseResponseString_ = {
+    code?: number;
+    data?: string;
     message?: string;
   };
 

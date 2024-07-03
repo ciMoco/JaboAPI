@@ -4,6 +4,7 @@ import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
+
 const { REACT_APP_ENV = 'dev' } = process.env;
 export default defineConfig({
   /**
@@ -129,7 +130,7 @@ export default defineConfig({
   openAPI: [
     {
       requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:7529/api//v2/api-docs',
+      schemaPath: 'http://39.102.214.236:7529/api/v2/api-docs',
       projectName: 'jaboapi-backend',
     },
   ],
